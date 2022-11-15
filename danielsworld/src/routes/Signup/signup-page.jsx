@@ -41,6 +41,7 @@ const defaultFormFields = {
         email: '',
         password: '',
         confirmPassword: '',
+        displayName: ''
     }
 
 
@@ -62,12 +63,16 @@ export default function SignUpPage() {
     }
     try {
         const { user } = await createAuthUserWithEmailAndPassword(email, password);
-        displayName = firstName + ' ' + lastName;
-        await createUserDocumentFromAuth(user, { displayName });
+        await createUserDocumentFromAuth(user, { displayName: (firstName + " " + lastName) });
         resetFormFields();
-        // navigate('/');
+        navigate('/');
     } catch (error) {
-        toast(error);
+        if (error.code === 'auth/email-already-in-use') {
+                toast('Cannot create user, email already in use');
+        }
+        else {
+            toast(error);
+        }
     }
 };
 
@@ -77,9 +82,10 @@ const handleChange = (event) => {
 };
 
   return (
-    <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
+        <Toaster/>
         <Box
           sx={{
             marginTop: 8,
@@ -106,6 +112,7 @@ const handleChange = (event) => {
                   label="First Name"
                   autoFocus
                   onChange={handleChange}
+                  value={firstName}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -117,6 +124,7 @@ const handleChange = (event) => {
                   name="lastName"
                   autoComplete="family-name"
                   onChange={handleChange}
+                  value={lastName}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -126,6 +134,7 @@ const handleChange = (event) => {
                   id="email"
                   label="Email Address"
                   name="email"
+                  value={email}
                   autoComplete="email"
                   onChange={handleChange}
                 />
@@ -135,6 +144,7 @@ const handleChange = (event) => {
                   required
                   fullWidth
                   name="password"
+                  value={password}
                   label="Password"
                   type="password"
                   id="password"
@@ -152,6 +162,7 @@ const handleChange = (event) => {
                   id="confirmPassword"
                   autoComplete="confirm-password"
                   onChange={handleChange}
+                  value={confirmPassword}
                 />
               </Grid>
               <Grid item xs={12}>

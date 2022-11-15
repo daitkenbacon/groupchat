@@ -19,7 +19,7 @@ import {
   writeBatch,
   getDocs,
   addDoc,
-  updateDoc,
+  updateDoc
 } from 'firebase/firestore';
 
 import { getAnalytics } from "firebase/analytics";
@@ -99,7 +99,11 @@ export const createUserDocumentFromAuth = async (
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
 
-  return await createUserWithEmailAndPassword(auth, email, password);
+  try{
+    return await createUserWithEmailAndPassword(auth, email, password);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const signInAuthUserWithEmailAndPassword = async (email, password) => {
@@ -118,21 +122,24 @@ export const createDocInCollection = async (objectToAdd, collectionToPut) => {
   const docRef = await addDoc(col, objectToAdd);
 
   //logs the doc ID as an object field
-  const res = await updateDoc(docRef,{id: docRef.id})
-
-  return res;
+  try {
+    const res = await updateDoc(docRef,{id: docRef.id})
+    return res;
+  } catch(error) {
+    console.log(error);
+  }
 }
 
 export const getDocsInCollection = async (collectionToGetFrom) => {
   try {
     const colRef = collection(db, collectionToGetFrom);
     const docsSnap = await getDocs(colRef);
-    const tournaments = [];
+    const docArray = [];
     docsSnap.docs.forEach((doc) => {
-      tournaments.push(doc.data());
+      docArray.push(doc.data());
     })
 
-    return tournaments;
+    return docArray;
 
   } catch(error) {
     console.log(error);
