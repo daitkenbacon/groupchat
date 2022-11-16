@@ -1,9 +1,15 @@
 .home-container {
-    width: 80%;
+    width: 90%;
     height: 100vh;
     margin: auto;
     background-color: rgb(172, 172, 172);
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+@media only screen and (min-width: 830px){
+    .home-container {
+        width: 70%;
+    }
 }

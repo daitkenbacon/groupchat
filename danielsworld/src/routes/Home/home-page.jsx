@@ -6,6 +6,9 @@ import { UserContext } from '../../contexts/user-context.jsx';
 import { useContext, useState } from 'react';
 import { getDocInCollection } from '../../utils/firebase.js';
 import { Typography } from '@mui/material';
+import Feed from '../../components/Feed/feed';
+
+
 
 const HomePage = () => {
   const { currentUser } = useContext(UserContext);
@@ -33,7 +36,8 @@ const HomePage = () => {
       <Typography variant='h2'>
         Hello, {currentUser && userName}
       </Typography>
-      </div>
+      <Feed />
+    </div>
   )
 }
 

@@ -49,6 +49,7 @@ const defaultFormFields = {
 export default function SignUpPage() {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const { displayName, email, password, confirmPassword, firstName, lastName } = formFields;
+    const createdAt = new Date().toLocaleString();
     const navigate = useNavigate();
 
     const resetFormFields = () => {
@@ -63,7 +64,7 @@ export default function SignUpPage() {
     }
     try {
         const { user } = await createAuthUserWithEmailAndPassword(email, password);
-        await createUserDocumentFromAuth(user, { displayName: (firstName + " " + lastName) });
+        await createUserDocumentFromAuth(user, { displayName: (firstName + " " + lastName), createdAt: createdAt });
         resetFormFields();
         navigate('/');
     } catch (error) {
