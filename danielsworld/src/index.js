@@ -9,6 +9,7 @@ import {BrowserRouter} from 'react-router-dom';
 
 
 import { UserProvider } from './contexts/user-context.jsx';
+import Navbar from './components/Navbar/navbar';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -16,6 +17,7 @@ root.render(
     <BrowserRouter>
       <UserProvider>
         <App />
+        <Navbar />
       </UserProvider>
     </BrowserRouter>
   </React.StrictMode>
