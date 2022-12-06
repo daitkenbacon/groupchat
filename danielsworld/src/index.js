@@ -1,17 +1,16 @@
-import React from 'react';
+import React from "react";
 
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
 
-import ReactDOM from 'react-dom/client';
-import {BrowserRouter} from 'react-router-dom';
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 
+import { UserProvider } from "./contexts/user-context.jsx";
+import Navbar from "./components/Navbar/navbar";
 
-import { UserProvider } from './contexts/user-context.jsx';
-import Navbar from './components/Navbar/navbar';
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>

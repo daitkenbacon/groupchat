@@ -9,7 +9,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
-} from 'firebase/auth';
+} from "firebase/auth";
 import {
   getFirestore,
   doc,
@@ -19,8 +19,8 @@ import {
   writeBatch,
   getDocs,
   addDoc,
-  updateDoc
-} from 'firebase/firestore';
+  updateDoc,
+} from "firebase/firestore";
 
 import { getAnalytics } from "firebase/analytics";
 
@@ -34,7 +34,7 @@ const firebaseConfig = {
   storageBucket: "daniels-world-excercise.appspot.com",
   messagingSenderId: "989131411711",
   appId: "1:989131411711:web:d27b0394c97a7830adfcca",
-  measurementId: "G-BD3E86D595"
+  measurementId: "G-BD3E86D595",
 };
 
 // Initialize Firebase
@@ -43,13 +43,13 @@ const analytics = getAnalytics(app);
 
 const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({
-  prompt: 'select_account',
+  prompt: "select_account",
 });
 
 export const auth = getAuth();
 export const signInWithGooglePopup = () =>
   signInWithPopup(auth, googleProvider);
-  
+
 export const db = getFirestore();
 
 export const addCollectionAndDocuments = async (
@@ -73,7 +73,7 @@ export const createUserDocumentFromAuth = async (
 ) => {
   if (!userAuth) return;
 
-  const userDocRef = doc(db, 'users', userAuth.uid);
+  const userDocRef = doc(db, "users", userAuth.uid);
 
   const userSnapshot = await getDoc(userDocRef);
 
@@ -89,7 +89,7 @@ export const createUserDocumentFromAuth = async (
         ...additionalInformation,
       });
     } catch (error) {
-      console.log('error creating the user', error.message);
+      console.log("error creating the user", error.message);
     }
   }
 
@@ -99,7 +99,7 @@ export const createUserDocumentFromAuth = async (
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
 
-  try{
+  try {
     return await createUserWithEmailAndPassword(auth, email, password);
   } catch (error) {
     console.log(error);
@@ -123,12 +123,12 @@ export const createDocInCollection = async (objectToAdd, collectionToPut) => {
 
   //logs the doc ID as an object field
   try {
-    const res = await updateDoc(docRef,{id: docRef.id})
+    const res = await updateDoc(docRef, { id: docRef.id });
     return res;
-  } catch(error) {
+  } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const getDocsInCollection = async (collectionToGetFrom) => {
   try {
@@ -137,25 +137,24 @@ export const getDocsInCollection = async (collectionToGetFrom) => {
     const docArray = [];
     docsSnap.docs.forEach((doc) => {
       docArray.push(doc.data());
-    })
+    });
 
     return docArray;
-
-  } catch(error) {
+  } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const getDocInCollection = async (collectionToGetFrom, docId) => {
   try {
     const docRef = await doc(db, collectionToGetFrom, docId);
     const docSnap = await getDoc(docRef);
-    if(!docSnap){
-      console.log("No such document exists.")
+    if (!docSnap) {
+      console.log("No such document exists.");
       return;
     }
     return docSnap;
-  } catch(error) {
+  } catch (error) {
     console.log(error);
   }
-}
+};
