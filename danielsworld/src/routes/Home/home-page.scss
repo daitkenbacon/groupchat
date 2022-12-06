@@ -9,8 +9,41 @@
   align-items: center;
 }
 
+h2 {
+  top: 15px;
+  position: absolute;
+}
+
 @media only screen and (min-width: 830px) {
   .home-container {
     width: 70%;
+  }
+}
+
+.new-post-button {
+  position: fixed;
+  bottom: 80px;
+  right: 300px;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  background-color: white;
+  transition: .1s;
+  box-shadow: 1px 1px 5px gray;
+
+  &:hover {
+    background-color: rgb(216, 216, 216);
+    transition: .1s;
+  }
+
+  &.mouseDown {
+    background-color: gray;
+    transition: .1s;
+  }
+
+  &.selected {
+    width: 0px;
+    height: 0px;
+    transition: .3s;
   }
 }

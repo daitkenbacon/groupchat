@@ -15,6 +15,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
+
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -36,7 +37,7 @@ const Post = (props) => {
     setExpanded(!expanded);
   };
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345, margin: 6, minWidth: 500 }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -54,7 +55,7 @@ const Post = (props) => {
       <CardMedia
         component="img"
         height="194"
-        image="/static/images/cards/paella.jpg"
+        image="https://turnerdentalcare.com/wp-content/uploads/2014/04/smiling-people-turner-dental-care-e1397791456739.jpg"
         alt="Paella dish"
       />
       <CardContent>

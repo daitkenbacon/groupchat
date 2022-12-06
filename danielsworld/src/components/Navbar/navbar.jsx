@@ -14,9 +14,8 @@ const Navbar = () => {
     <Box
       sx={{
         bottom: 0,
-        display: "inline-block",
-        width: "100%",
-        position: "absolute",
+        width: "100vw",
+        position: "fixed",
       }}
     >
       <BottomNavigation
