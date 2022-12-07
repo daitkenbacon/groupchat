@@ -15,7 +15,7 @@ const defaultFormFields = {
 const NewPostForm = (props) => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const { content, image } = formFields;
-    const { currentUser } = props;
+    const { currentUser, handleClose } = props;
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -35,6 +35,7 @@ const NewPostForm = (props) => {
             setFormFields({...formFields, author_id: currentUser.uid})
             const res = await createDocInCollection(formFields, 'posts');
             resetFormFields();
+            handleClose();
         } catch(error) {
             console.log(error);
         }

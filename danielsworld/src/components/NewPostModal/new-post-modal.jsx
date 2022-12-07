@@ -26,7 +26,7 @@ const NewPostModal = (props) => {
             aria-describedby="Create a new post"
         >
             <Box sx={style}>
-                <NewPostForm currentUser={currentUser}/>
+                <NewPostForm currentUser={currentUser} handleClose={handleClose}/>
             </Box>
         </Modal>
     )

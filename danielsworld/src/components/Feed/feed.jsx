@@ -3,6 +3,7 @@ import { useState } from "react";
 import { getDocsInCollection } from "../../utils/firebase.js";
 
 import Post from "../Post/post.jsx";
+import './feed.scss';
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
