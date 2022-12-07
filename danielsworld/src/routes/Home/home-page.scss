@@ -20,7 +20,7 @@ h2 {
   }
 }
 
-.new-post-button {
+.post-button-container {
   position: fixed;
   bottom: 80px;
   right: 300px;
@@ -42,8 +42,7 @@ h2 {
   }
 
   &.selected {
-    width: 0px;
-    height: 0px;
+    background-color: rgb(67, 67, 67);
     transition: .3s;
   }
 }
