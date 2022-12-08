@@ -29,7 +29,6 @@ const NewPostForm = (props) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
         
         try {
             setFormFields({...formFields, author_id: currentUser.uid})
@@ -46,7 +45,7 @@ const NewPostForm = (props) => {
         <div className='new-post-container'>
             <Typography>New Post</Typography>
             <form onSubmit={handleSubmit}>
-                <input required onChange={handleChange} label='Content' name='content' value={content} className='content-input' type='text' size='100%'/>
+                <textarea required onChange={handleChange} label='Content' name='content' value={content} className='content-input' type='text' size='100%'/>
                 <button type="submit">Post</button>
             </form>
         </div>

@@ -6,10 +6,9 @@ import NewPostForm from '../NewPostForm/new-post-form';
 const NewPostModal = (props) => {
 
     const style = {
-        position: 'absolute',
-        margin: '0',
-        top: '75%',
-        right: '20%',
+        position: 'relative',
+        top: '10%',
+        margin: 'auto',
         width: 400,
         bgcolor: 'background.paper',
         border: '2px solid #000',
