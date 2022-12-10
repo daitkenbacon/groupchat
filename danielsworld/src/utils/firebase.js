@@ -158,3 +158,12 @@ export const getDocInCollection = async (collectionToGetFrom, docId) => {
     console.log(error);
   }
 };
+
+export const updateDocByID = async (collection, docID, data) => {
+  try {
+    const docRef = await doc(db, collection, docID);
+    const res = await updateDoc(docRef, data);
+  } catch (err) {
+    console.log(err);
+  }
+}

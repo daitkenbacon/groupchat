@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback } from 'react'
 
 import './home-page.scss'
 
 import { UserContext } from '../../contexts/user-context.jsx';
 import { useContext, useState } from 'react';
-import { getDocInCollection } from '../../utils/firebase.js';
+import { getDocInCollection, getDocsInCollection } from '../../utils/firebase.js';
 import { Typography } from '@mui/material';
 
 import Feed from '../../components/Feed/feed';
@@ -25,9 +25,8 @@ const HomePage = () => {
     setIsModalOpen((isModalOpen) => isModalOpen=false);
   }
 
-  useEffect(() => {
-    async function getUserDoc() {
-      try {
+  const getUserDoc = useCallback(async () => {
+    try {
         if(currentUser){
           const u = await getDocInCollection('users', currentUser.uid);
           setUserName(u.data().displayName);
@@ -35,20 +34,37 @@ const HomePage = () => {
       } catch(error) {
         console.log(error);
       }
-    }
+  })
 
+  useEffect(() => {
     getUserDoc();
-  }, [currentUser])
+  }, [getUserDoc])
+
+  const fetchPosts = useCallback(async () => {
+    const p = await getDocsInCollection("posts");
+      setPosts(p);
+      posts.sort((a, b) => {
+        const postA = new Date(a.createdAt.seconds * 1000);
+        const postB = new Date(b.createdAt.seconds * 1000);
+        return postA - postB;
+      });
+  })
+
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    fetchPosts();
+  }, [fetchPosts]);
 
   return (
     <div className='home-container'>
       <Typography variant='h2'>
         Hello, {currentUser && userName}
       </Typography>
-      <Feed sx={{mt: '500px'}} />
+      <Feed posts={posts} fetchPosts={fetchPosts} currentUser={currentUser} sx={{mt: '500px'}} />
       <NewPostButton handleOpen={handleOpenModal}/>
       {isModalOpen &&
-        <NewPostModal currentUser={currentUser} isOpen={isModalOpen} handleClose={handleCloseModal}/>
+        <NewPostModal fetchPosts={fetchPosts} currentUser={currentUser} isOpen={isModalOpen} handleClose={handleCloseModal}/>
       }
     </div>
   )

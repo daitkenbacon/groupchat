@@ -6,16 +6,20 @@ import './new-post-form.scss';
 
 import { createDocInCollection } from '../../utils/firebase';
 
-const defaultFormFields = {
-    content: '',
-    image: ''
-}
-
-
 const NewPostForm = (props) => {
+    const { currentUser, handleClose, fetchPosts} = props;
+
+    const defaultFormFields = {
+        content: '',
+        image: '',
+        author_id: currentUser.uid,
+        createdAt: new Date(),
+        comments: [],
+        likes: []
+    }
+    
     const [formFields, setFormFields] = useState(defaultFormFields);
     const { content, image } = formFields;
-    const { currentUser, handleClose } = props;
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -31,10 +35,11 @@ const NewPostForm = (props) => {
         event.preventDefault();
         
         try {
-            setFormFields({...formFields, author_id: currentUser.uid})
             const res = await createDocInCollection(formFields, 'posts');
+            console.log(res);
             resetFormFields();
             handleClose();
+            fetchPosts();
         } catch(error) {
             console.log(error);
         }

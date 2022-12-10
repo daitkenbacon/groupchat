@@ -1,31 +1,18 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { getDocsInCollection } from "../../utils/firebase.js";
 
 import Post from "../Post/post.jsx";
 import './feed.scss';
 
-const Feed = () => {
-  const [posts, setPosts] = useState([]);
-  useEffect(() => {
-    async function getPosts() {
-      const p = await getDocsInCollection("posts");
-      setPosts(p);
-      posts.sort((a, b) => {
-        const postA = new Date(a.createdAt);
-        const postB = new Date(b.createdAt);
-        return postA - postB;
-      });
-    }
-
-    getPosts();
-  }, []);
+const Feed = (props) => {
+  const { currentUser, fetchPosts, posts } = props;
 
   return (
     <div className="feed-container">
       {posts &&
-        posts.map((post, idx) => {
-          return <Post key={idx} content={post.content} author={post.author} createdAt={post.createdAt}/>
+        posts.map((post) => {
+          const createdAt = new Date(post.createdAt.seconds * 1000)
+          return <Post fetchPosts={fetchPosts} likes={post.likes} comments={post.comments} currentUser={currentUser} key={post.id} postID={post.id} content={post.content} author={post.author_id} createdAt={createdAt}/>
         })}
     </div>
   );
