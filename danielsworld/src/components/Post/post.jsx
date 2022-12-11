@@ -34,13 +34,14 @@ const ExpandMore = styled((props) => {
 
 const Post = (props) => {
   const [expanded, setExpanded] = useState(false);
-  const {author, content, createdAt, comments, postID, currentUser, fetchPosts, likes} = props;
+  const {author, content, createdAt, comments, postID, currentUser, fetchPosts, likes, image} = props;
   const [userName, setUserName] = useState('');
   const [isNameLoading, setIsNameLoading] = useState(true);
 
   useEffect(() => {
     async function getUserDoc() {
       try {
+        console.log('get username');
         if(author){
           const u = await getDocInCollection('users', author);
           setUserName(u.data().displayName);
@@ -76,7 +77,7 @@ const Post = (props) => {
       <CardMedia
         component="img"
         height="194"
-        image="https://turnerdentalcare.com/wp-content/uploads/2014/04/smiling-people-turner-dental-care-e1397791456739.jpg"
+        image={image}
         alt="Post image"
       />
       <CardContent>

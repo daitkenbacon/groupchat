@@ -15,6 +15,7 @@ const HomePage = () => {
   const { currentUser } = useContext(UserContext);
   const [userName, setUserName] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [posts, setPosts] = useState([]);
   //console.log(currentUser);
 
   const handleOpenModal = (event) => {
@@ -34,27 +35,25 @@ const HomePage = () => {
       } catch(error) {
         console.log(error);
       }
-  })
+  }, [currentUser])
 
   useEffect(() => {
     getUserDoc();
+    console.log('get user doc');
   }, [getUserDoc])
 
   const fetchPosts = useCallback(async () => {
+    console.log('get posts');
     const p = await getDocsInCollection("posts");
-      setPosts(p);
-      posts.sort((a, b) => {
-        const postA = new Date(a.createdAt.seconds * 1000);
-        const postB = new Date(b.createdAt.seconds * 1000);
-        return postA - postB;
-      });
-  })
+    setPosts(p);
+  }, [posts, setPosts])
 
-  const [posts, setPosts] = useState([]);
+  
 
   useEffect(() => {
     fetchPosts();
-  }, [fetchPosts]);
+    console.log('get posts');
+  }, []);
 
   return (
     <div className='home-container'>

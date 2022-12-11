@@ -1,6 +1,11 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 
+import { 
+  getStorage,
+  ref,
+ } from 'firebase/storage';
+
 import {
   getAuth,
   signInWithPopup,
@@ -20,6 +25,8 @@ import {
   getDocs,
   addDoc,
   updateDoc,
+  orderBy,
+  query
 } from "firebase/firestore";
 
 import { getAnalytics } from "firebase/analytics";
@@ -39,7 +46,8 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+const storage = getStorage(app);
+// const analytics = getAnalytics(app);
 
 const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({
@@ -124,6 +132,8 @@ export const createDocInCollection = async (objectToAdd, collectionToPut) => {
   //logs the doc ID as an object field
   try {
     const res = await updateDoc(docRef, { id: docRef.id });
+    const today = new Date();
+    
     return res;
   } catch (error) {
     console.log(error);
@@ -133,7 +143,8 @@ export const createDocInCollection = async (objectToAdd, collectionToPut) => {
 export const getDocsInCollection = async (collectionToGetFrom) => {
   try {
     const colRef = collection(db, collectionToGetFrom);
-    const docsSnap = await getDocs(colRef);
+    const q = query(colRef, orderBy('createdAt', 'desc',)); //Sorts collection by createdAt
+    const docsSnap = await getDocs(q);
     const docArray = [];
     docsSnap.docs.forEach((doc) => {
       docArray.push(doc.data());
@@ -164,6 +175,15 @@ export const updateDocByID = async (collection, docID, data) => {
     const docRef = await doc(db, collection, docID);
     const res = await updateDoc(docRef, data);
   } catch (err) {
+    console.log(err);
+  }
+}
+
+export const getStorageRef = (filepath) => {
+  try {
+    const res = ref(storage, filepath);
+    return res;
+  } catch(err) {
     console.log(err);
   }
 }
