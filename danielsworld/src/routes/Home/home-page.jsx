@@ -57,9 +57,9 @@ const HomePage = () => {
 
   return (
     <div className='home-container'>
-      <Typography variant='h2'>
-        Hello, {currentUser && userName}
-      </Typography>
+      <h1>
+       {currentUser && `${userName}'s Groupchat`}
+      </h1>
       <Feed posts={posts} fetchPosts={fetchPosts} currentUser={currentUser} sx={{mt: '500px'}} />
       <NewPostButton handleOpen={handleOpenModal}/>
       {isModalOpen &&

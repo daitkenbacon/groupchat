@@ -1,0 +1,15 @@
+.post-container {
+    margin: 5px;
+    display: flex;
+
+    .post-content {
+        border-radius: 10px;
+        max-width: 100%;
+        padding: 20px;
+    }
+
+    .post-author {
+        border-radius: 30px;
+        margin-right: 10px;
+    }
+}
