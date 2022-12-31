@@ -1,15 +1,55 @@
 .post-container {
     margin: 5px;
-    display: flex;
+    margin-bottom: 25px;
+    animation: load-in 0.3s;
 
     .post-content {
         border-radius: 10px;
         max-width: 100%;
-        padding: 20px;
+        padding: 10px;
     }
 
     .post-author {
-        border-radius: 30px;
+        border-radius: 35px;
         margin-right: 10px;
+        width: 65px;
+        height: 65px;
+        text-align: center;
+        align-self: center;
+        justify-content: center;
     }
+
+    &.user-post {
+        display: flex;
+        flex-direction: row-reverse;
+
+        .post-author {
+            margin-left: 15px;
+        }
+        .post-comments {
+            justify-content: left;
+        }
+    }
+
+    &.other-post {
+        display: flex;
+        flex-direction: row;
+
+        .post-author {
+            margin-right: 15px;
+        }
+        .post-comments {
+            justify-content: right;
+        }
+    }
+
+    .post-comments {
+        display: flex;
+        justify-items: center;
+    }
+}
+
+@keyframes load-in {
+    0% { transform: translateY(-100px); opacity: 0; }
+    100% { transform: none; opacity: 100; }
 }

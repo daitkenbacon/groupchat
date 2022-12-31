@@ -1,0 +1,9 @@
+.new-comment-form {
+    max-width: 80%;
+    min-width: 50%;
+    margin: 5px;
+    form {
+        display: flex;
+        flex-direction: row;
+    }
+}

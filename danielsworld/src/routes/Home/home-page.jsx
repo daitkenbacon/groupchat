@@ -13,10 +13,10 @@ import NewPostModal from '../../components/NewPostModal/new-post-modal';
 
 const HomePage = () => {
   const { currentUser } = useContext(UserContext);
+  const [currentUserID, setCurrentUserID] = useState('');
   const [userName, setUserName] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [posts, setPosts] = useState([]);
-  //console.log(currentUser);
 
   const handleOpenModal = (event) => {
     setIsModalOpen((isModalOpen) => isModalOpen=true);
@@ -30,6 +30,7 @@ const HomePage = () => {
     try {
         if(currentUser){
           const u = await getDocInCollection('users', currentUser.uid);
+          setCurrentUserID(currentUser.uid);
           setUserName(u.data().displayName);
         }
       } catch(error) {
@@ -52,7 +53,6 @@ const HomePage = () => {
 
   useEffect(() => {
     fetchPosts();
-    console.log('get posts');
   }, []);
 
   return (
@@ -60,7 +60,7 @@ const HomePage = () => {
       <h1>
        {currentUser && `${userName}'s Groupchat`}
       </h1>
-      <Feed posts={posts} fetchPosts={fetchPosts} currentUser={currentUser} sx={{mt: '500px'}} />
+      <Feed posts={posts} fetchPosts={fetchPosts} currentUser={currentUserID} sx={{mt: '500px'}} />
       <NewPostButton handleOpen={handleOpenModal}/>
       {isModalOpen &&
         <NewPostModal fetchPosts={fetchPosts} currentUser={currentUser} isOpen={isModalOpen} handleClose={handleCloseModal}/>

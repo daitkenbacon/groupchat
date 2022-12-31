@@ -1,38 +1,14 @@
 import * as React from "react";
 import { useEffect, useState } from 'react';
-import { styled } from "@mui/material/styles";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Collapse from "@mui/material/Collapse";
-import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import { getDocInCollection } from "../../utils/firebase";
+
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+
 import CommentForm from "../CommentForm/comment-form";
 import Comment from '../Comment/comment';
 
 import './post.scss';
-
-
-const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-  marginLeft: "auto",
-  transition: theme.transitions.create("transform", {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
 
 const Post = (props) => {
   const [expanded, setExpanded] = useState(false);
@@ -59,6 +35,8 @@ const Post = (props) => {
 
     getUserDoc();
   }, [])
+
+  const isUsersPost = (author===currentUser);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -121,9 +99,26 @@ const Post = (props) => {
     //   <CommentForm fetchPosts={fetchPosts} currentUser={currentUser} postID={postID}/>
     // </Card>
 
-    <div className="post-container">
+
+
+    <div className={`post-container ${isUsersPost ? 'user-post' : 'other-post'}`}>
       <h2 className="post-author bg-white text-black">{userNameAbbr}</h2>
-      <p className="post-content bg-blue text-white">{content}</p>
+      <p className={`post-content ${isUsersPost ? 'bg-blue' : 'bg-green'} text-white`}>
+        {content}
+        <div className="post-comments">
+          {`${(comments.length > 0) ? comments.length : ''}`}
+          <ChatBubbleOutlineIcon onClick={handleExpandClick}/>
+          {expanded &&
+            comments &&
+            <div>
+              {comments.map((comment, idx) => (
+                <Comment author={comment.author} content={comment.content} key={idx}/>
+              ))}
+              <CommentForm fetchPosts={fetchPosts} currentUser={currentUser} postID={postID}/>
+            </div>
+          }
+        </div>
+      </p>
     </div>
   );
 };

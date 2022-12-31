@@ -1,6 +1,7 @@
 import { Typography } from "@mui/material";
 import { useState } from "react";
 import { getDocInCollection, updateDocByID } from "../../utils/firebase";
+import './comment-form.scss';
 
 const CommentForm = (props) => {
     const { currentUser, postID, fetchPosts } = props;
@@ -27,10 +28,8 @@ const CommentForm = (props) => {
         try {
             const postRef = await getDocInCollection('posts', postID);
             var commentsRef = postRef.data().comments;
-            console.log(commentsRef);
             commentsRef = [...commentsRef, formFields]
             const res = await updateDocByID('posts', postID, {comments: commentsRef});
-            console.log(res);
             resetFormFields();
             fetchPosts();
         } catch(error) {
@@ -40,10 +39,9 @@ const CommentForm = (props) => {
 
     return (
         <div className='new-comment-form'>
-            <p>Add a comment:</p>
             <form onSubmit={handleSubmit}>
                 <textarea required onChange={handleChange} label='Content' name='content' value={content} className='content-input' type='text' size='100%'/>
-                <button type="submit">Comment</button>
+                <button type="submit">+</button>
             </form>
         </div>
     )

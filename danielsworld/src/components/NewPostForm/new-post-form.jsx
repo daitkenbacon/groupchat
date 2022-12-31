@@ -60,7 +60,6 @@ const NewPostForm = (props) => {
         try {
             
             const res = await createDocInCollection(formFields, 'posts');
-            console.log(res);
             resetFormFields();
             handleClose();
             fetchPosts();
